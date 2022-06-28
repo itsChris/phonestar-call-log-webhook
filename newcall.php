@@ -34,14 +34,19 @@ fwrite($myfile, "sip_request: " . $sip_request . "\r\n");
 fwrite($myfile, "--------------------------------------------------------------------" . "\r\n");
 fclose($myfile);
 
+// the header
+$headers = 'From: calllog@solvia.ch' . "\r\n" .
+    'Reply-To: info@solvia.ch' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
 // The message
-$ "sip_request: " . $sip_request . "\r\n" . "url: " . $url . "\r\n";
+$message = "Date: " . $date . "\r\n" . "Event: " . $event . "\r\n" . "Caller: " . $caller . "\r\n" . "Callee: " . $callee . "\r\n" . "timestamp: " . $timestamp . "\r\n" . "sip_from: " . $sip_from . "\r\n" . "sip_$
 //$message = "Line 1\r\nLine 2\r\nLine 3";
 
 // In case any of our lines are larger than 70 characters, we should use wordwrap()
 $message = wordwrap($message, 70, "\r\n");
 
 // Send
-mail('cc@solvia.ch', 'call-log-entry', $message);
+mail('cc@solvia.ch', $caller . "->" . $callee, $message, $headers);
 
 ?>
